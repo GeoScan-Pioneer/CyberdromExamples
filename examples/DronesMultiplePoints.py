@@ -30,6 +30,7 @@ drones.append(Pioneer(ip=DroneConnectingData.drone1.ip, mavlink_port=DroneConnec
 drones.append(Pioneer(ip=DroneConnectingData.drone2.ip, mavlink_port=DroneConnectingData.drone2.port))
 drones.append(Pioneer(ip=DroneConnectingData.drone3.ip, mavlink_port=DroneConnectingData.drone3.port))
 
+# Словарь с точками
 position_object = {
     "home_drone":
         {
@@ -47,6 +48,7 @@ position_object = {
         }
 }
 
+# Создание массива с точками, взятыми из словаря выше
 mission_for_drone = [
     [
         position_object["points_interest"]["point0"],
@@ -67,13 +69,14 @@ mission_for_drone = [
 
 ]
 
+# взлет всех дронов
 for drone in drones:
     drone.arm()
     drone.takeoff()
 
+# Разрешение лететь каждому дрону
 new_point = [True, True, True, True]
 while True:
-
 
     fin = 0
     for i in range(len(drones)):

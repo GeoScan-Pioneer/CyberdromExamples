@@ -98,7 +98,12 @@ is_new_fire = False
 
 
 def search():
+    """
+    Функция для поиска пожаров. drone будет бесконечно летать по траектории и искать пожары
+    """
     global fire_point, is_new_fire
+
+    # Завести моторы и взлететь
     drone.arm()
     drone.takeoff()
     """ Бесконеынй поиск пожаров """
@@ -107,16 +112,21 @@ def search():
     pos = None
 
     while True:
+        # если можем лететь в новую точку
         if newPoint:
             drone.go_to_local_point(tr[i].x, tr[i].y, 1)
             i += 1
+
+            # нуление индекса точки для зацикливания траектории
             if i >= len(tr):
                 i = 0
 
             newPoint = False
 
+        # Если дрон достиг точки полета
         if drone.point_reached():
             newPoint = True
+
 
         p = drone.get_local_position_lps()
         if p is not None:
@@ -124,32 +134,43 @@ def search():
 
         temp = drone.get_piro_sensor_data()
         if temp is not None:
+            # если температура больше 40 и находится в полуметре от последней обнаруженной точки пожара. Иначе дрон будет обнаружевать один и тот же пожар.
             if temp >= 40 and not FlightPlanner.checkDist(fire_point[:2], pos[:2], 0.5):
+                # цветовая индикация пожара
                 drone.fire_detection()
                 fire_point = pos
                 is_new_fire = True
 
+                # остановка в текущей точке
                 drone.go_to_local_point(pos[0], pos[1], 1)
                 time.sleep(5)
                 drone.point_reached()
+
+                # продолджение полета по траектории
                 drone.go_to_local_point(tr[i - 1].x, tr[i - 1].y, 1)
 
         time.sleep(0.02)
 
 
 def detecting():
+    """
+    Функция для тушения пожарв роботом
+    """
     global fire_point, is_new_fire
     while True:
+        # Если есть найденный пожар
         if is_new_fire:
             is_new_fire = False
 
             robot.go_to_local_point(x=fire_point[0], y=fire_point[1])
 
         if robot.point_reached():
+            # При достижении точки выполняется индикация
             robot.fire_detection()
 
         time.sleep(0.02)
 
+# Запуск функций в отдельных потоках
 th1 = threading.Thread(target=search)
 th2 = threading.Thread(target=detecting)
 

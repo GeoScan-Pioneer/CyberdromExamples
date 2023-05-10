@@ -1,3 +1,5 @@
+# Данный файл необходимо использовать как заготовку кода для программирования
+
 import dataclasses
 
 from edubot_sdk.edubot_sdk import EdubotGCS  # Импортируем класс РТС
