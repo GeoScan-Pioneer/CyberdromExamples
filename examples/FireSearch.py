@@ -90,7 +90,7 @@ class FlightPlanner:
 # tr = FlightPlanner.create_snake_traectory(Point(-4, -4), Point(4, 4), 8, 3)
 tr = FlightPlanner.create_snake_traectory(Point(0, -4), Point(4, 4), 8, 2)
 
-drone = Pioneer(method=2, ip=DroneConnectingData.drone0.ip, mavlink_port=DroneConnectingData.drone0.port)
+drone = Pioneer(ip=DroneConnectingData.drone0.ip, mavlink_port=DroneConnectingData.drone0.port)
 robot = EdubotGCS(ip=RobotConnectingData.robot0.ip, mavlink_port=RobotConnectingData.robot0.port)
 
 fire_point = [0, 0, 0]

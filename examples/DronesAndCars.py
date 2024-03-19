@@ -55,9 +55,9 @@ while True:
         p_1.go_to_local_point(-4, -4.9, 1.5)
 
     # получение температуры с первого дрона
-    data = p_1.get_piro_sensor_data(blocking=True)
+    data = p_1.get_piro_sensor_data()
     if data:
-        pos = p_1.get_local_position_lps(blocking=True)
+        pos = p_1.get_local_position_lps()
         if pos:
             print(data, pos)
 
@@ -70,9 +70,9 @@ while True:
         p_2.go_to_local_point(4.0, 0, 1.5)
         p_2.led_control(r=200, g=124, b=12)
 
-    data = p_2.get_qr_reader_data(blocking=True)
+    data = p_2.get_qr_reader_data()
     if data:
-        pos = p_2.get_local_position_lps(blocking=True)
+        pos = p_2.get_local_position_lps()
         if pos:
             print(data, pos)
 

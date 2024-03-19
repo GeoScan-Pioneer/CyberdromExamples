@@ -67,10 +67,10 @@ def search():
     drones[0].takeoff()
     new_point = True
     while True:
-        current_temp = drones[0].get_piro_sensor_data(blocking=True)
+        current_temp = drones[0].get_piro_sensor_data()
         if current_temp is not None and current_temp >= 100:
             print(current_temp)
-            curr_pos = drones[0].get_local_position_lps(blocking=True)
+            curr_pos = drones[0].get_local_position_lps()
             if curr_pos is not None:
                 print(curr_pos)
                 points_interest.append([curr_pos[0], curr_pos[1]])
@@ -83,7 +83,7 @@ def search():
 
             new_point = False
 
-        if drones[0].point_reached(True):
+        if drones[0].point_reached():
             new_point = True
             current_mission_point += 1
 
@@ -116,7 +116,7 @@ def action_drone1():
 
             new_point = False
 
-        if drones[1].point_reached(True):
+        if drones[1].point_reached():
             new_point = True
             current_mission_point += 1
 
@@ -149,7 +149,7 @@ def action_drone2():
 
             new_point = False
 
-        if drones[2].point_reached(True):
+        if drones[2].point_reached():
             if current_mission_point == 0:
                 drones[2].led_custom(mode=2, color1=[255, 0, 0], color2=[200, 200, 200], timer=10)
                 time.sleep(5)
